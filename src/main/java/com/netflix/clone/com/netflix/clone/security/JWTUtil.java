@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Component
@@ -20,11 +21,13 @@ public class JWTUtil {
     // validity for 30 day 24 hours 60 min 60 sec and 1000 milisec
     private static final long JWT_TOKEN_VALIDITY = 30L * 24 * 60 * 60 * 1000;
 
-    @Value("${jwt.secret: defaultSecretKeyForNetflixClone}")
+    @Value("${jwt.secret: dGhpcyBpcyBhIHZlcnkgc2VjdXJlIHNlY3JldCBrZXkgZm9yIG5ldGZsaXggY2xvbmUgYXBw}")
     private String secret;
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
+        // return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String getUserNameFromToken(String token){

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class EmailValidationREsponse {
+public class EmailValidationResponse {
     private boolean exists;
     private boolean available;
 
